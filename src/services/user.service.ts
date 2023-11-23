@@ -1,4 +1,4 @@
-import { IUser } from "../interfaces/user.interface";
+import { IOrder, IUser } from "../interfaces/user.interface";
 import { UserModel } from "../models/user.model";
 
 const createUser = async (userData: IUser): Promise<IUser> => {
@@ -36,10 +36,23 @@ const deleteUser = async (userId: number) => {
   return result;
 };
 
+const createOrder = async (userId: string, orderData: IOrder) => {
+  const result = UserModel.findOneAndUpdate(
+    { userId },
+    {
+      $push: {
+        orders: orderData,
+      },
+    },
+  );
+  return result;
+};
+
 export const userServices = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  createOrder,
 };

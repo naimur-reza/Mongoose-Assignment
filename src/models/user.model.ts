@@ -20,9 +20,9 @@ const userSchema = new Schema<IUser>({
   hobbies: [String],
   orders: [
     {
-      productName: { type: String, required: true },
-      price: { type: String, required: true },
-      quantity: { type: String, required: true },
+      productName: { type: String },
+      price: { type: String },
+      quantity: { type: String },
     },
   ],
 });
