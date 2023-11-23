@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { userServices } from "../services/user.service";
 
-//  todo: password encryption
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;

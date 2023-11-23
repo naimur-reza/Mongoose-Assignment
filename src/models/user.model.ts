@@ -21,9 +21,10 @@ const userSchema = new Schema<IUser>({
   orders: [String],
 });
 
-userSchema.pre("save", function () {
+userSchema.pre("save", function (next) {
   const hashPassword = bcrypt.hashSync(this.password, 10);
-  return (this.password = hashPassword);
+  this.password = hashPassword;
+  next();
 });
 
 export const UserModel = model<IUser>("User", userSchema);
