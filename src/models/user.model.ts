@@ -18,7 +18,13 @@ const userSchema = new Schema<IUser>({
     country: { type: String },
   },
   hobbies: [String],
-  orders: [String],
+  orders: [
+    {
+      productName: { type: String, required: true },
+      price: { type: String, required: true },
+      quantity: { type: String, required: true },
+    },
+  ],
 });
 
 userSchema.pre("save", function (next) {

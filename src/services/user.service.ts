@@ -22,6 +22,7 @@ const getSingleUser = async (userId: number) => {
   const result = UserModel.findOne({ userId });
   return result;
 };
+
 const updateUser = async (userId: number, updateData: IUser) => {
   const result = UserModel.findOneAndUpdate({ userId }, updateData, {
     new: true,
@@ -30,9 +31,15 @@ const updateUser = async (userId: number, updateData: IUser) => {
   return result;
 };
 
+const deleteUser = async (userId: number) => {
+  const result = UserModel.findOneAndDelete({ userId });
+  return result;
+};
+
 export const userServices = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
+  deleteUser,
 };
