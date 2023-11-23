@@ -3,6 +3,7 @@ import { UserModel } from "../models/user.model";
 
 const createUser = async (userData: IUser): Promise<IUser> => {
   const result = await UserModel.create(userData);
+
   return result;
 };
 
@@ -17,7 +18,13 @@ const getAllUsers = async () => {
   return result;
 };
 
+const getSingleUser = async (userId: number) => {
+  const result = UserModel.findOne({ userId });
+  return result;
+};
+
 export const userServices = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };
