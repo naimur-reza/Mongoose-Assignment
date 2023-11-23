@@ -18,6 +18,7 @@ const createUser = async (req: Request, res: Response) => {
     });
   }
 };
+
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const result = await userServices.getAllUsers();
@@ -34,6 +35,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     });
   }
 };
+
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.userId);
@@ -59,7 +61,38 @@ const getSingleUser = async (req: Request, res: Response) => {
       success: false,
       message: "Something went wrong!",
       error: error,
-      id: parseInt(req.params.userId),
+    });
+  }
+};
+
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const updateData = req.body;
+    const userId = parseInt(req.params.userId);
+    const user = await userServices.getSingleUser(userId);
+
+    if (!user)
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+        error: {
+          code: 404,
+          description: "User not found!",
+        },
+      });
+
+    const updatedUser = await userServices.updateUser(userId, updateData);
+
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully!",
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong!",
+      error: error,
     });
   }
 };
@@ -68,4 +101,5 @@ export const userController = {
   createUser,
   getAllUsers,
   getSingleUser,
+  updateUser,
 };

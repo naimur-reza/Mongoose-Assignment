@@ -1,5 +1,3 @@
-import { IOrder } from "./order.interface";
-
 interface IUser {
   userId: number;
   username: string;
@@ -17,7 +15,11 @@ interface IUser {
     city: string;
     country: string;
   };
-  orders: IOrder[];
+  orders: {
+    productName: string;
+    price: number;
+    quantity: number;
+  }[];
 }
 
 export { IUser };
