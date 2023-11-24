@@ -209,7 +209,7 @@ const getTotalPrice = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "Total price fetched successfully!",
+      message: "Total price calculated successfully!!",
       data: result,
     });
   } catch (error) {

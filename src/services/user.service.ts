@@ -75,7 +75,9 @@ const getTotalPrice = async (userId: number) => {
       },
     },
   ]);
-  return result;
+
+  if (result.length > 0) return result[0];
+  else return (result[0] = { totalPrice: 0 });
 };
 
 export const userServices = {
