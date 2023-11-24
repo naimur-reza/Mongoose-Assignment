@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { userServices } from "./user.service";
+import { orderValidationSchema, userValidationSchema } from "./userValidation";
 
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    const result = await userServices.createUser(userData);
+    const parseData = userValidationSchema.parse(userData);
+    const result = await userServices.createUser(parseData);
     res.status(201).json({
       success: true,
       message: "User inserted successfully!",
@@ -67,7 +69,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const updateData = req.body;
+    const updateData = userValidationSchema.parse(req.body);
     const userId = parseInt(req.params.userId);
     const user = await userServices.getSingleUser(userId);
 
@@ -131,7 +133,7 @@ const deleteUser = async (req: Request, res: Response) => {
 const createOrder = async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.id);
-    const userData = req.body;
+    const userData = orderValidationSchema.parse(req.body);
     const user = await userServices.getSingleUser(userId);
 
     if (!user)
