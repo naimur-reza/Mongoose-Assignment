@@ -21,8 +21,8 @@ const userSchema = new Schema<IUser>({
   orders: [
     {
       productName: { type: String },
-      price: { type: String },
-      quantity: { type: String },
+      price: { type: Number },
+      quantity: { type: Number },
     },
   ],
 });

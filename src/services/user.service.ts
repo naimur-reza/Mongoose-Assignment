@@ -19,12 +19,12 @@ const getAllUsers = async () => {
 };
 
 const getSingleUser = async (userId: number) => {
-  const result = UserModel.findOne({ userId });
+  const result = await UserModel.findOne({ userId });
   return result;
 };
 
 const updateUser = async (userId: number, updateData: IUser) => {
-  const result = UserModel.findOneAndUpdate({ userId }, updateData, {
+  const result = await UserModel.findOneAndUpdate({ userId }, updateData, {
     new: true,
     runValidators: true,
   });
@@ -32,12 +32,12 @@ const updateUser = async (userId: number, updateData: IUser) => {
 };
 
 const deleteUser = async (userId: number) => {
-  const result = UserModel.findOneAndDelete({ userId });
+  const result = await UserModel.findOneAndDelete({ userId });
   return result;
 };
 
-const createOrder = async (userId: string, orderData: IOrder) => {
-  const result = UserModel.findOneAndUpdate(
+const createOrder = async (userId: number, orderData: IOrder) => {
+  const result = await UserModel.findOneAndUpdate(
     { userId },
     {
       $push: {
@@ -45,6 +45,36 @@ const createOrder = async (userId: string, orderData: IOrder) => {
       },
     },
   );
+  return result;
+};
+const getAllOrders = async (userId: number) => {
+  const result = await UserModel.findOne({ userId }).select({ orders: 1 });
+  return result;
+};
+
+const getTotalPrice = async (userId: number) => {
+  const result = await UserModel.aggregate([
+    {
+      $match: {
+        userId: userId,
+      },
+    },
+    { $unwind: "$orders" },
+    {
+      $group: {
+        _id: null,
+        totalPrice: {
+          $sum: { $multiply: ["$orders.price", "$orders.quantity"] },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        totalPrice: 1,
+      },
+    },
+  ]);
   return result;
 };
 
@@ -55,4 +85,6 @@ export const userServices = {
   updateUser,
   deleteUser,
   createOrder,
+  getAllOrders,
+  getTotalPrice,
 };
