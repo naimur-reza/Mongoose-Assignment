@@ -131,8 +131,8 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 const createOrder = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.userId);
   try {
-    const userId = parseInt(req.params.id);
     const userData = orderValidationSchema.parse(req.body);
     const user = await userServices.getSingleUser(userId);
 
