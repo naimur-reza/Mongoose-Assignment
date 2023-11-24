@@ -54,12 +54,17 @@ const getAllOrders = async (userId: number) => {
 
 const getTotalPrice = async (userId: number) => {
   const result = await UserModel.aggregate([
+    // stage-1
     {
       $match: {
         userId: userId,
       },
     },
+
+    // stage-2
     { $unwind: "$orders" },
+
+    // stage-3
     {
       $group: {
         _id: null,
@@ -68,6 +73,8 @@ const getTotalPrice = async (userId: number) => {
         },
       },
     },
+
+    // stage-4
     {
       $project: {
         _id: 0,
