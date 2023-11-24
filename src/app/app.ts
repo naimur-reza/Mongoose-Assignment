@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import { userRouter } from "../routers/user.router";
+import { userRouter } from "../model/user/user.router";
 
 export const app: Application = express();
 

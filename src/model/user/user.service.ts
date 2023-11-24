@@ -1,5 +1,5 @@
-import { IOrder, IUser } from "../interfaces/user.interface";
-import { UserModel } from "../models/user.model";
+import { IOrder, IUser } from "./user.interface";
+import { UserModel } from "./user.model";
 
 const createUser = async (userData: IUser): Promise<IUser> => {
   const result = await UserModel.create(userData);
