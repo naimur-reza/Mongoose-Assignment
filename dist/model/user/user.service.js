@@ -116,7 +116,7 @@ const getTotalPrice = userId =>
       {
         $project: {
           _id: 0,
-          totalPrice: 1,
+          totalPrice: { $round: ["$totalPrice", 2] },
         },
       },
     ]);
