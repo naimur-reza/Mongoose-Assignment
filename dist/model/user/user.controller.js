@@ -77,7 +77,7 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const updateData = userValidation_1.userValidationSchema.parse(req.body);
+        const updateData = userValidation_1.userValidationSchema.partial().parse(req.body);
         const userId = parseInt(req.params.userId);
         const user = yield user_service_1.userServices.getSingleUser(userId);
         if (!user)

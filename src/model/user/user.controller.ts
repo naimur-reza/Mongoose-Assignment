@@ -69,7 +69,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const updateData = userValidationSchema.parse(req.body);
+    const updateData = userValidationSchema.partial().parse(req.body);
     const userId = parseInt(req.params.userId);
     const user = await userServices.getSingleUser(userId);
 

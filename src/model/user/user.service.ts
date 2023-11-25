@@ -23,7 +23,7 @@ const getSingleUser = async (userId: number) => {
   return result;
 };
 
-const updateUser = async (userId: number, updateData: IUser) => {
+const updateUser = async (userId: number, updateData: Partial<IUser>) => {
   const result = await UserModel.findOneAndUpdate({ userId }, updateData, {
     new: true,
     runValidators: true,
