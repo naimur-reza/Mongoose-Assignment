@@ -9,7 +9,7 @@ const createUser = async (req: Request, res: Response) => {
     const result = await userServices.createUser(parseData);
     res.status(201).json({
       success: true,
-      message: "User inserted successfully!",
+      message: "User created successfully!",
       data: result,
     });
   } catch (error) {
@@ -26,7 +26,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     const result = await userServices.getAllUsers();
     res.status(200).json({
       success: true,
-      message: "Users retrieved successfully!",
+      message: "Users fetched successfully!",
       data: result,
     });
   } catch (error) {
@@ -55,7 +55,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "User retrieved successfully!",
+      message: "User fetched successfully!",
       data: user,
     });
   } catch (error) {
