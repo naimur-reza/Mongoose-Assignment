@@ -16,7 +16,7 @@ const userSchema = new Schema<IUser>(
       {
         _id: false,
         password: { type: String },
-        timeStamps: { type: String, default: Date.now },
+        timeStamps: { type: String },
       },
     ],
   },

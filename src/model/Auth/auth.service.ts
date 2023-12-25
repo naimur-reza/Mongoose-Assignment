@@ -3,6 +3,7 @@ import { comparePassword, hashPassword } from "../../helpers/passwordHelper";
 import { User } from "../User/user.model";
 import { IRegister } from "./auth.interface";
 import { createToken, verifyToken } from "./auth.utils";
+import GenericError from "../../classes/errorClass/GenericError";
 
 const register = async (payload: IRegister) => {
   const hashedPassword = hashPassword(payload.password);
@@ -61,33 +62,39 @@ const changePassword = async (
     currentPassword,
     user.password,
   );
-  if (!isValidCurrentPassword) throw new Error("Invalid current password!");
+  if (!isValidCurrentPassword) throw new GenericError("Invalid password", 400);
 
   // check if new password is different from current password
   const isValidNewPassword = comparePassword(newPassword, user.password);
-  if (isValidNewPassword) throw new Error("New password must be different!");
+  if (isValidNewPassword)
+    throw new GenericError("New password must be different!", 400);
 
   const currentHashedPassword = hashPassword(currentPassword);
   const newHashedPassword = hashPassword(newPassword);
 
   // check if new password is in password history
   if (user.passwordHistory) {
-    const lastTwoPasswords = user.passwordHistory.slice(-2);
+    const lastTwoPasswords = user.passwordHistory.slice(-3);
     lastTwoPasswords.map(entry => {
       const isMatchedToOldPassword = comparePassword(
         newPassword,
         entry.password,
       );
-      if (isMatchedToOldPassword) throw new Error("Password already used!");
+      if (isMatchedToOldPassword)
+        throw new GenericError(
+          `Password change failed. Ensure the new password is unique and not among the last 2 used ${entry.timeStamps}`,
+          400,
+        );
     });
 
     user.passwordHistory.push({
       password: newHashedPassword,
+      timeStamps: new Date(),
     });
   } else {
     user.passwordHistory = [
-      { password: currentHashedPassword },
-      { password: newHashedPassword },
+      { password: currentHashedPassword, timeStamps: new Date() },
+      { password: newHashedPassword, timeStamps: new Date() },
     ];
   }
 
