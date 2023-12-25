@@ -1,7 +1,8 @@
+import { JwtPayload } from "jsonwebtoken";
 import { comparePassword, hashPassword } from "../../helpers/passwordHelper";
 import { User } from "../User/user.model";
 import { IRegister } from "./auth.interface";
-import { createToken } from "./auth.utils";
+import { createToken, verifyToken } from "./auth.utils";
 
 const register = async (payload: IRegister) => {
   const hashedPassword = hashPassword(payload.password);
@@ -39,7 +40,37 @@ const login = async (email: string, password: string) => {
   };
 };
 
+const changePassword = async (
+  token: string,
+  currentPassword: string,
+  newPassword: string,
+) => {
+  const decoded = verifyToken(token) as JwtPayload;
+
+  const { _id } = decoded;
+
+  const user = await User.findById(_id).select("+password").lean();
+  if (!user) throw new Error("User not exist!");
+
+  const isValidCurrentPassword = comparePassword(
+    currentPassword,
+    user.password,
+  );
+  if (!isValidCurrentPassword) throw new Error("Invalid current password!");
+
+  const hashedPassword = hashPassword(newPassword);
+
+  const updatePassword = await User.findByIdAndUpdate(
+    _id,
+    { password: hashedPassword },
+    { new: true },
+  );
+
+  return updatePassword;
+};
+
 export const AuthService = {
   register,
   login,
+  changePassword,
 };

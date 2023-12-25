@@ -11,7 +11,13 @@ const loginValidation = z.object({
   password: z.string().min(6).max(255),
 });
 
+const changePasswordValidation = z.object({
+  currentPassword: z.string().min(6).max(255),
+  newPassword: z.string().min(6).max(255),
+});
+
 export const authValidation = {
   registerValidation,
   loginValidation,
+  changePasswordValidation,
 };

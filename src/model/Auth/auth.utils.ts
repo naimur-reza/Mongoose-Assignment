@@ -7,5 +7,11 @@ export const createToken = (payload: {
   email: string;
   role: string;
 }) => {
-  return jwt.sign(payload, config.jwt_access_secret!);
+  return jwt.sign(payload, config.jwt_access_secret!, {
+    expiresIn: "1d",
+  });
+};
+
+export const verifyToken = (token: string) => {
+  return jwt.verify(token, config.jwt_access_secret!);
 };
