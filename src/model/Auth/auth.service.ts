@@ -1,6 +1,7 @@
 import { comparePassword, hashPassword } from "../../helpers/passwordHelper";
 import { User } from "../User/user.model";
 import { IRegister } from "./auth.interface";
+import { createToken } from "./auth.utils";
 
 const register = async (payload: IRegister) => {
   const hashedPassword = hashPassword(payload.password);
@@ -23,9 +24,18 @@ const login = async (email: string, password: string) => {
 
   if (!isValid) throw new Error("Invalid email or password");
 
+  const payload = {
+    _id: user._id,
+    email: user.email,
+    role: user.role,
+  };
+
+  const token = createToken(payload);
+
   return {
     ...user,
     password: undefined,
+    token,
   };
 };
 
