@@ -20,7 +20,7 @@ router.get(
   CourseController.getAllCourseFromDB,
 );
 
-router.patch("/courses/:courseId", CourseController.updateCourseFromDB);
+router.put("/courses/:courseId", CourseController.updateCourseFromDB);
 
 router.get("/courses/:courseId/reviews", CourseController.getCourseWithReviews);
 
