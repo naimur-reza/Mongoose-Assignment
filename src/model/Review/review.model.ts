@@ -5,6 +5,7 @@ const reviewSchema = new Schema<IReview>({
   courseId: { type: Schema.Types.ObjectId, ref: "Course" },
   rating: { type: Number },
   review: { type: String },
+  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 export const Review = model<IReview>("Review", reviewSchema);

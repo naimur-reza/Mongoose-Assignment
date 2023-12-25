@@ -34,6 +34,7 @@ const courseSchema = new Schema<ICourse>({
   language: { type: String },
   provider: { type: String },
   details: detailsSchema,
+  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
   durationInWeeks: { type: Number },
 });
 
