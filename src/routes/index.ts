@@ -3,7 +3,7 @@ import { CourseRouter } from "../model/Course/course.route";
 
 import { Router } from "express";
 import { ReviewRouters } from "../model/Review/review.route";
-import { userRoute } from "../model/User/user.route";
+import { authRoute } from "../model/Auth/auth.route";
 
 const router = Router();
 
@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: "/auth",
-    route: userRoute,
+    route: authRoute,
   },
 ];
 
