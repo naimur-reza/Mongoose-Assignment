@@ -80,6 +80,9 @@ const changePassword = async (
         newPassword,
         entry.password,
       );
+
+      // todo : error message is not fulfilled requirement
+
       if (isMatchedToOldPassword)
         throw new GenericError(
           `Password change failed. Ensure the new password is unique and not among the last 2 used ${entry.timeStamps}`,

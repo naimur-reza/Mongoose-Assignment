@@ -1,6 +1,6 @@
 import { USER_ROLE } from "./user.constant";
 
-type Roles = keyof typeof USER_ROLE;
+export type TRoles = keyof typeof USER_ROLE;
 
 type PasswordHistory = {
   password: string;
@@ -11,6 +11,6 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
-  role: Roles;
+  role: TRoles;
   passwordHistory?: PasswordHistory;
 }
