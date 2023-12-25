@@ -6,7 +6,7 @@ import catchAsync from "../utils/catchAsync";
 import { TRoles } from "../model/User/user.interface";
 
 const auth = (...requiredRoles: TRoles[]) => {
-  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
     if (!token) throw new Error("Token not found");

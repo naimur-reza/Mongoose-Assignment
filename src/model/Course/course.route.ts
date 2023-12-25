@@ -5,11 +5,13 @@ import {
   createCourseSchemaValidation,
   updateCourseSchemaValidation,
 } from "./course.validation";
+import auth from "../../middleware/auth";
 
 const router = Router();
 
 router.post(
   "/course",
+  auth("admin"),
   validateRequest(createCourseSchemaValidation),
   CourseController.createCourseIntoDB,
 );
