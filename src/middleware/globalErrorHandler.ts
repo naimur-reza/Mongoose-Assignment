@@ -43,14 +43,24 @@ const globalErrorHandler = (
     };
   }
 
-  if (err instanceof GenericError && err.message === "")
-    res.status(err.statusCode || 500).json({
-      success: errorResponse.success,
-      message: errorResponse.message,
-      errorMessage: errorResponse.errorMessage,
-      errorDetails: errorResponse.errorDetails,
-      stack: errorResponse.stack,
+  if (
+    err instanceof GenericError &&
+    err.message.includes("Password change failed")
+  ) {
+    res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: err.message,
+      data: null,
     });
+  }
+  res.status(err.statusCode || 500).json({
+    success: errorResponse.success,
+    message: errorResponse.message,
+    errorMessage: errorResponse.errorMessage,
+    errorDetails: errorResponse.errorDetails,
+    stack: errorResponse.stack,
+  });
 };
 
 export default globalErrorHandler;
