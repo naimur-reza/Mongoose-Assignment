@@ -65,6 +65,9 @@ const updateCourseIntoDB = async (
   const result = await Course.findByIdAndUpdate(id, modifiedData, {
     new: true,
     runValidators: true,
+  }).populate({
+    path: "createdBy",
+    select: "-createdAt -updatedAt -__v",
   });
 
   return result;

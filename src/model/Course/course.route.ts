@@ -23,7 +23,11 @@ router.get(
   CourseController.getAllCourseFromDB,
 );
 
-router.put("/courses/:courseId", CourseController.updateCourseFromDB);
+router.put(
+  "/courses/:courseId",
+  auth("admin"),
+  CourseController.updateCourseFromDB,
+);
 
 router.get("/courses/:courseId/reviews", CourseController.getCourseWithReviews);
 

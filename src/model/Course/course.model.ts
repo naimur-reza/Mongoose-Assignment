@@ -23,20 +23,25 @@ const detailsSchema = new Schema<IDetails>(
   },
 );
 
-const courseSchema = new Schema<ICourse>({
-  title: { type: String, unique: true },
-  instructor: { type: String, unique: true },
-  categoryId: { type: Schema.Types.ObjectId, ref: "Category" },
-  price: { type: Number },
-  tags: [tagsSchema],
-  startDate: { type: Date },
-  endDate: { type: Date },
-  language: { type: String },
-  provider: { type: String },
-  details: detailsSchema,
-  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-  durationInWeeks: { type: Number },
-});
+const courseSchema = new Schema<ICourse>(
+  {
+    title: { type: String, unique: true },
+    instructor: { type: String, unique: true },
+    categoryId: { type: Schema.Types.ObjectId, ref: "Category" },
+    price: { type: Number },
+    tags: [tagsSchema],
+    startDate: { type: Date },
+    endDate: { type: Date },
+    language: { type: String },
+    provider: { type: String },
+    details: detailsSchema,
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+    durationInWeeks: { type: Number },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 courseSchema.pre("save", function (next) {
   const startDate = new Date(this.startDate).getTime();
