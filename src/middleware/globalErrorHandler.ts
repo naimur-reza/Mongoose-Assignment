@@ -7,6 +7,7 @@ import IErrorResponse from "../types/IErrorResponse";
 import handleCastError from "../helpers/errors/handleCastError";
 import { ZodError } from "zod";
 import handleZodError from "../helpers/errors/handleZodError";
+import GenericError from "../classes/errorClass/GenericError";
 
 const globalErrorHandler = (
   err: any,
@@ -18,18 +19,31 @@ const globalErrorHandler = (
     success: false,
     message: "error",
     errorMessage: err.message || "Something went wrong",
+    errorDetails: err || null,
+    stack: err.stack,
   };
 
   if (err instanceof mongoose.Error.CastError)
     errorResponse = handleCastError(err);
   if (err instanceof ZodError) errorResponse = handleZodError(err);
 
+  if (err instanceof GenericError && err.message === "Unauthorized Access") {
+    errorResponse = {
+      success: false,
+      message: err.message,
+      errorMessage:
+        "You do not have the necessary permissions to access this resource.",
+      errorDetails: null,
+      stack: null,
+    };
+  }
+
   res.status(err.statusCode || 500).json({
     success: errorResponse.success,
     message: errorResponse.message,
     errorMessage: errorResponse.errorMessage,
-    errorDetails: err,
-    stack: err.stack,
+    errorDetails: errorResponse.errorDetails,
+    stack: errorResponse.stack,
   });
 };
 

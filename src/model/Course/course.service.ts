@@ -88,6 +88,65 @@ const getCourseWithReviews = async (id: string) => {
     },
     {
       $lookup: {
+        from: "users",
+        localField: "createdBy",
+        foreignField: "_id",
+        as: "createdBy",
+      },
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { courseId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$courseId", "$$courseId"],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "createdBy",
+              foreignField: "_id",
+              as: "createdBy",
+            },
+          },
+          {
+            $unset: [
+              "createdBy.password",
+              "createdBy.passwordHistory",
+              "createdBy.createdAt",
+              "createdBy.updatedAt",
+              "createdBy.__v",
+            ],
+          },
+        ],
+        as: "reviews",
+      },
+    },
+    {
+      $unset: [
+        "createdBy.password",
+        "createdBy.passwordHistory",
+        "createdBy.createdAt",
+        "createdBy.updatedAt",
+        "createdBy.__v",
+      ],
+    },
+  ]);
+
+  return result;
+};
+
+const getBestCourseFromDB = async () => {
+  const result = await Course.aggregate([
+    // first stage
+
+    {
+      $lookup: {
         from: "reviews",
         localField: "_id",
         foreignField: "courseId",
@@ -111,38 +170,9 @@ const getCourseWithReviews = async (id: string) => {
         "createdBy.__v",
       ],
     },
-    {
-      $lookup: {
-        from: "users",
-        localField: "reviews.createdBy",
-        foreignField: "_id",
-        as: "reviews.createdBy",
-      },
-    },
-    {
-      $unset: [
-        "reviews.createdBy.password",
-        "reviews.createdBy.passwordHistory",
-        "reviews.createdBy.createdAt",
-        "reviews.createdBy.updatedAt",
-        "reviews.createdBy.__v",
-      ],
-    },
-  ]);
-  return result;
-};
-
-const getBestCourseFromDB = async () => {
-  const result = await Course.aggregate([
-    // first stage
 
     {
-      $lookup: {
-        from: "reviews",
-        localField: "_id",
-        foreignField: "courseId",
-        as: "reviews",
-      },
+      $unwind: "$createdBy",
     },
 
     // second stage

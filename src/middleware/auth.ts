@@ -10,17 +10,17 @@ const auth = (...requiredRoles: TRoles[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
-    if (!token) throw new GenericError("Unauthorized access", 401);
+    if (!token) throw new GenericError("Unauthorized Access", 401);
 
     const decoded = verifyToken(token) as JwtPayload;
 
     const { _id } = decoded;
 
     const user = await User.findById(_id).lean();
-    if (!user) throw new GenericError("Unauthorized access", 401);
+    if (!user) throw new GenericError("Unauthorized Access", 401);
 
     if (requiredRoles && !requiredRoles.includes(user.role))
-      throw new GenericError("Unauthorized access", 401);
+      throw new GenericError("Unauthorized Access", 401);
     req.user = decoded as JwtPayload;
 
     next();
