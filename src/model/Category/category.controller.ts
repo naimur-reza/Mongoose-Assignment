@@ -4,7 +4,8 @@ import { CategoryServices } from "./category.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 
 const createCategoryIntoDB = catchAsync(async (req: Request, res: Response) => {
-  const category = await CategoryServices.createCategoryIntoDB(req.body);
+  const { _id } = req.user;
+  const category = await CategoryServices.createCategoryIntoDB(_id, req.body);
   sendSuccessResponse(res, {
     statusCode: 201,
     message: "Category created successfully",

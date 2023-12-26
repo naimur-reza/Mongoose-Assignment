@@ -1,13 +1,18 @@
+import { Types } from "mongoose";
 import { ICategory } from "./category.interface";
 import { Category } from "./category.model";
 
-const createCategoryIntoDB = async (payload: ICategory) => {
+const createCategoryIntoDB = async (
+  _id: Types.ObjectId,
+  payload: ICategory,
+) => {
+  payload.createdBy = _id;
   const result = Category.create(payload);
   return result;
 };
 
 const getAllCategoriesFromDB = async () => {
-  const result = Category.find({});
+  const result = Category.find({}).populate("createdBy");
   return result;
 };
 
