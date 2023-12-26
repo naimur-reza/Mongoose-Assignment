@@ -14,8 +14,8 @@ const register = catchAsync(async (req: Request, res: Response) => {
 });
 
 const login = catchAsync(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const user = await AuthService.login(email, password);
+  const { username, password } = req.body;
+  const user = await AuthService.login(username, password);
 
   sendSuccessResponse(res, {
     statusCode: 200,
@@ -25,15 +25,9 @@ const login = catchAsync(async (req: Request, res: Response) => {
 });
 
 const changePassword = catchAsync(async (req: Request, res: Response) => {
-  const { currentPassword, newPassword } = req.body;
-  // const { _id } = req.user;
-  const token = req.headers.authorization as string;
-
-  const user = await AuthService.changePassword(
-    token,
-    currentPassword,
-    newPassword,
-  );
+  const { _id } = req.user;
+  const payload = req.body;
+  const user = await AuthService.changePassword(_id, payload);
 
   sendSuccessResponse(res, {
     statusCode: 200,

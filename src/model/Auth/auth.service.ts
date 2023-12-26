@@ -1,8 +1,7 @@
-import { JwtPayload } from "jsonwebtoken";
 import { comparePassword, hashPassword } from "../../helpers/passwordHelper";
 import { User } from "../User/user.model";
 import { IRegister } from "./auth.interface";
-import { createToken, verifyToken } from "./auth.utils";
+import { createToken } from "./auth.utils";
 import GenericError from "../../classes/errorClass/GenericError";
 
 const register = async (payload: IRegister) => {
@@ -15,16 +14,16 @@ const register = async (payload: IRegister) => {
   return user;
 };
 
-const login = async (email: string, password: string) => {
-  const user = await User.findOne({ email }).select("+password").lean();
+const login = async (username: string, password: string) => {
+  const user = await User.findOne({ username }).select("+password").lean();
 
-  if (!user) throw new Error("Invalid email or password");
+  if (!user) throw new Error("Invalid username or password");
 
   const hashedPassword = user.password;
 
   const isValid = comparePassword(password, hashedPassword);
 
-  if (!isValid) throw new Error("Invalid email or password");
+  if (!isValid) throw new Error("Invalid username or password");
 
   const payload = {
     _id: user._id,
@@ -44,13 +43,13 @@ const login = async (email: string, password: string) => {
 };
 
 const changePassword = async (
-  token: string,
-  currentPassword: string,
-  newPassword: string,
+  _id: string,
+  payload: {
+    currentPassword: string;
+    newPassword: string;
+  },
 ) => {
-  const decoded = verifyToken(token) as JwtPayload;
-
-  const { _id } = decoded;
+  const { newPassword, currentPassword } = payload;
 
   const user = await User.findById(_id)
     .select("+password +passwordHistory")
@@ -73,7 +72,7 @@ const changePassword = async (
   const newHashedPassword = hashPassword(newPassword);
 
   // check if new password is in password history
-  if (user.passwordHistory) {
+  if (user.passwordHistory && user.passwordHistory.length > 0) {
     const lastTwoPasswords = user.passwordHistory.slice(-3);
     lastTwoPasswords.map(entry => {
       const isMatchedToOldPassword = comparePassword(

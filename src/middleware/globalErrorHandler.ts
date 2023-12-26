@@ -43,13 +43,14 @@ const globalErrorHandler = (
     };
   }
 
-  res.status(err.statusCode || 500).json({
-    success: errorResponse.success,
-    message: errorResponse.message,
-    errorMessage: errorResponse.errorMessage,
-    errorDetails: errorResponse.errorDetails,
-    stack: errorResponse.stack,
-  });
+  if (err instanceof GenericError && err.message === "")
+    res.status(err.statusCode || 500).json({
+      success: errorResponse.success,
+      message: errorResponse.message,
+      errorMessage: errorResponse.errorMessage,
+      errorDetails: errorResponse.errorDetails,
+      stack: errorResponse.stack,
+    });
 };
 
 export default globalErrorHandler;
