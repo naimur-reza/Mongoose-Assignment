@@ -34,7 +34,6 @@ const login = async (username: string, password: string) => {
   const token = createToken(payload);
 
   return {
-    //  todo : fix this
     ...user,
     password: undefined,
     passwordHistory: undefined,
@@ -79,8 +78,6 @@ const changePassword = async (
         newPassword,
         entry.password,
       );
-
-      // todo : error message is not fulfilled requirement
 
       if (isMatchedToOldPassword)
         throw new GenericError(

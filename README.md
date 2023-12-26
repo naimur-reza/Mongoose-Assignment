@@ -54,7 +54,7 @@ To run this project, you will need to add the following environment variables to
 
 ### Courses
 
-- `POST api/course`
+- `POST api/courses`
 - `GET api/courses`
 - `PUT api/courses/:courseId`
 - `GET api/courses/:courseId/reviews`
