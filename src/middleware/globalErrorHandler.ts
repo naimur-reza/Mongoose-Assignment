@@ -27,7 +27,12 @@ const globalErrorHandler = (
     errorResponse = handleCastError(err);
   if (err instanceof ZodError) errorResponse = handleZodError(err);
 
-  if (err instanceof GenericError && err.message === "Unauthorized Access") {
+  if (
+    (err instanceof GenericError && err.message === "Unauthorized Access") ||
+    err.message === "jwt malformed" ||
+    err.message === "jwt expired" ||
+    err.message === "invalid token"
+  ) {
     errorResponse = {
       success: false,
       message: err.message,
