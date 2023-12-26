@@ -10,7 +10,7 @@ import auth from "../../middleware/auth";
 const router = Router();
 
 router.post(
-  "/course",
+  "/courses",
   auth("admin"),
   validateRequest(createCourseSchemaValidation),
   CourseController.createCourseIntoDB,

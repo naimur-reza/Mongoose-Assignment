@@ -1,6 +1,5 @@
 import { CategoryRouters } from "../model/Category/category.route";
 import { CourseRouter } from "../model/Course/course.route";
-
 import { Router } from "express";
 import { ReviewRouters } from "../model/Review/review.route";
 import { authRoute } from "../model/Auth/auth.route";
@@ -19,6 +18,10 @@ const routes = [
   {
     path: "/reviews",
     route: ReviewRouters,
+  },
+  {
+    path: "/courses",
+    route: CourseRouter,
   },
   {
     path: "/auth",

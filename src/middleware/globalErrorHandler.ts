@@ -54,6 +54,7 @@ const globalErrorHandler = (
       data: null,
     });
   }
+
   res.status(err.statusCode || 500).json({
     success: errorResponse.success,
     message: errorResponse.message,

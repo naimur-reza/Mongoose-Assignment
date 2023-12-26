@@ -11,6 +11,8 @@ const handleZodError = (err: ZodError): IErrorResponse => {
     success: false,
     message: "Validation Error",
     errorMessage,
+    errorDetails: err,
+    stack: err.stack,
   };
 };
 

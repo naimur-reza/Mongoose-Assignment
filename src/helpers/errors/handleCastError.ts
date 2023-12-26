@@ -10,6 +10,8 @@ const handleCastError = (err: mongoose.Error.CastError): IErrorResponse => {
     success: false,
     message: "Invalid ID",
     errorMessage: message,
+    errorDetails: err,
+    stack: err.stack,
   };
 };
 
