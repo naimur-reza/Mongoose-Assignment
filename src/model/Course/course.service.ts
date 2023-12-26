@@ -15,7 +15,13 @@ const createCourseIntoDB = async (
 };
 
 const getAllCourseFromDB = async (query: IQueryObj): Promise<ICourse[]> => {
-  const result = await getQuery(Course.find().populate("createdBy"), query);
+  const result = await getQuery(
+    Course.find().populate({
+      path: "createdBy",
+      select: "-createdAt -updatedAt -__v",
+    }),
+    query,
+  );
   return result;
 };
 

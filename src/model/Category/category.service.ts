@@ -12,7 +12,10 @@ const createCategoryIntoDB = async (
 };
 
 const getAllCategoriesFromDB = async () => {
-  const result = Category.find({}).populate("createdBy");
+  const result = Category.find({}).populate({
+    path: "createdBy",
+    select: "-createdAt -updatedAt -__v",
+  });
   return result;
 };
 
