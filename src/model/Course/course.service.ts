@@ -94,6 +94,40 @@ const getCourseWithReviews = async (id: string) => {
         as: "reviews",
       },
     },
+    {
+      $lookup: {
+        from: "users",
+        localField: "createdBy",
+        foreignField: "_id",
+        as: "createdBy",
+      },
+    },
+    {
+      $unset: [
+        "createdBy.password",
+        "createdBy.passwordHistory",
+        "createdBy.createdAt",
+        "createdBy.updatedAt",
+        "createdBy.__v",
+      ],
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "reviews.createdBy",
+        foreignField: "_id",
+        as: "reviews.createdBy",
+      },
+    },
+    {
+      $unset: [
+        "reviews.createdBy.password",
+        "reviews.createdBy.passwordHistory",
+        "reviews.createdBy.createdAt",
+        "reviews.createdBy.updatedAt",
+        "reviews.createdBy.__v",
+      ],
+    },
   ]);
   return result;
 };
