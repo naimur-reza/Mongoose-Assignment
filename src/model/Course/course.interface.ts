@@ -22,5 +22,5 @@ export interface ICourse {
   provider: string;
   durationInWeeks?: number;
   details: IDetails;
-  createdBy: Types.ObjectId;
+  createdBy?: Types.ObjectId;
 }

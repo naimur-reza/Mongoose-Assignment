@@ -6,7 +6,9 @@ import IQueryObj from "../../types/IQueryObj";
 
 const createCourseIntoDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
+    const { _id } = req.user;
     const course = await CourseServices.createCourseIntoDB(req.body);
+    course.createdBy = _id;
     sendSuccessResponse(res, {
       statusCode: 201,
       message: "Course created successfully",
@@ -25,14 +27,6 @@ const getAllCourseFromDB: RequestHandler = catchAsync(
       limit: query.limit || 10,
       total: course.length,
     };
-
-    // sendSuccessResponse(res, {
-    //   statusCode: 201,
-    //   message: "Courses retrieved successfully",
-    //   meta: meta,
-    //   data: course,
-    // });
-
     res.status(200).send({
       statusCode: 200,
       message: "Courses retrieved successfully",

@@ -20,7 +20,7 @@ export const createCourseSchemaValidation = z.object({
   language: z.string(),
   provider: z.string(),
   details: detailsSchema,
-  createdBy: z.string(),
+  createdBy: z.string().optional(),
 });
 
 export const updateCourseSchemaValidation =
