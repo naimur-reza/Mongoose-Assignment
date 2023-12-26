@@ -138,7 +138,7 @@ const getCourseWithReviews = async (id: string) => {
     },
   ]);
 
-  return result;
+  return result.length > 0 ? result[0] : null;
 };
 
 const getBestCourseFromDB = async () => {
@@ -208,7 +208,7 @@ const getBestCourseFromDB = async () => {
     },
   ]);
 
-  return result;
+  return result.length > 0 ? result[0] : null;
 };
 
 const deleteCourseFromDB = async (id: string) => {

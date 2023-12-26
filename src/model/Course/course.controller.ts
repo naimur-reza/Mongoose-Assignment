@@ -19,18 +19,12 @@ const createCourseIntoDB: RequestHandler = catchAsync(
 const getAllCourseFromDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const query: IQueryObj = req.query;
-    const course = await CourseServices.getAllCourseFromDB(query);
+    const courses = await CourseServices.getAllCourseFromDB(query);
 
-    const meta: Record<string, string | number> = {
-      page: query.page || 1,
-      limit: query.limit || 10,
-      total: course.length,
-    };
     res.status(200).send({
       statusCode: 200,
       message: "Courses retrieved successfully",
-      meta: meta,
-      data: course,
+      data: { courses },
     });
   },
 );
@@ -53,7 +47,7 @@ const getCourseWithReviews = catchAsync(async (req: Request, res: Response) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     message: "Course and Reviews retrieved successfully",
-    data: course,
+    data: { course },
   });
 });
 
@@ -62,7 +56,7 @@ const getBestCourseFromDB = catchAsync(async (req: Request, res: Response) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     message: "Best course retrieved successfully",
-    data: course,
+    data: { course },
   });
 });
 
