@@ -7,8 +7,7 @@ import IQueryObj from "../../types/IQueryObj";
 const createCourseIntoDB: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { _id } = req.user;
-    const course = await CourseServices.createCourseIntoDB(req.body);
-    course.createdBy = _id;
+    const course = await CourseServices.createCourseIntoDB(_id, req.body);
     sendSuccessResponse(res, {
       statusCode: 201,
       message: "Course created successfully",

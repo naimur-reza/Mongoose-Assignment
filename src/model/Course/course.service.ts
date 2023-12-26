@@ -1,22 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { ICourse } from "./course.interface";
 import { Course } from "./course.model";
 import IQueryObj from "../../types/IQueryObj";
 import { getQuery } from "../../helpers/queryHelper";
 
-const createCourseIntoDB = async (payload: ICourse): Promise<ICourse> => {
+const createCourseIntoDB = async (
+  _id: Types.ObjectId,
+  payload: ICourse,
+): Promise<ICourse> => {
+  payload.createdBy = _id;
   const result = await Course.create(payload);
   return result;
 };
 
 const getAllCourseFromDB = async (query: IQueryObj): Promise<ICourse[]> => {
-  const result = await getQuery(Course.find(), query);
+  const result = await getQuery(Course.find().populate("createdBy"), query);
   return result;
 };
 
 const getSingleCourseFromDB = async (id: string): Promise<ICourse | null> => {
-  const result = await Course.findById(id);
+  const result = await Course.findById(id).populate("createdBy");
   return result;
 };
 

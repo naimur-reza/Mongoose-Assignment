@@ -4,22 +4,23 @@ import { JwtPayload } from "jsonwebtoken";
 import { User } from "../model/User/user.model";
 import catchAsync from "../utils/catchAsync";
 import { TRoles } from "../model/User/user.interface";
+import GenericError from "../classes/errorClass/GenericError";
 
 const auth = (...requiredRoles: TRoles[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
-    if (!token) throw new Error("Token not found");
+    if (!token) throw new GenericError("Unauthorized access", 401);
 
     const decoded = verifyToken(token) as JwtPayload;
 
     const { _id } = decoded;
 
     const user = await User.findById(_id).lean();
-    if (!user) throw new Error("User not found");
+    if (!user) throw new GenericError("Unauthorized access", 401);
 
     if (requiredRoles && !requiredRoles.includes(user.role))
-      throw new Error("You are not authorized");
+      throw new GenericError("Unauthorized access", 401);
     req.user = decoded as JwtPayload;
 
     next();
