@@ -1,45 +1,39 @@
-import { Request, RequestHandler, Response } from "express";
+import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import { CourseServices } from "./course.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 import IQueryObj from "../../types/IQueryObj";
 
-const createCourseIntoDB: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const { _id } = req.user;
-    const course = await CourseServices.createCourseIntoDB(_id, req.body);
-    sendSuccessResponse(res, {
-      statusCode: 201,
-      message: "Course created successfully",
-      data: course,
-    });
-  },
-);
+const createCourseIntoDB = catchAsync(async (req: Request, res: Response) => {
+  const { _id } = req.user;
+  const course = await CourseServices.createCourseIntoDB(_id, req.body);
+  sendSuccessResponse(res, {
+    statusCode: 201,
+    message: "Course created successfully",
+    data: course,
+  });
+});
 
-const getAllCourseFromDB: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const query: IQueryObj = req.query;
-    const courses = await CourseServices.getAllCourseFromDB(query);
+const getAllCourseFromDB = catchAsync(async (req: Request, res: Response) => {
+  const query: IQueryObj = req.query;
+  const courses = await CourseServices.getAllCourseFromDB(query);
 
-    res.status(200).send({
-      statusCode: 200,
-      message: "Courses retrieved successfully",
-      data: { courses },
-    });
-  },
-);
+  res.status(200).send({
+    statusCode: 200,
+    message: "Courses retrieved successfully",
+    data: { courses },
+  });
+});
 
-const updateCourseFromDB: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const { courseId } = req.params;
-    const course = await CourseServices.updateCourseIntoDB(courseId, req.body);
-    sendSuccessResponse(res, {
-      statusCode: 200,
-      message: "Course updated successfully",
-      data: course,
-    });
-  },
-);
+const updateCourseFromDB = catchAsync(async (req: Request, res: Response) => {
+  const { courseId } = req.params;
+  const course = await CourseServices.updateCourseIntoDB(courseId, req.body);
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    message: "Course updated successfully",
+    data: course,
+  });
+});
 
 const getCourseWithReviews = catchAsync(async (req: Request, res: Response) => {
   const { courseId } = req.params;
