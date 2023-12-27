@@ -85,4 +85,4 @@ To run this project, you will need to add the following environment variables to
 
 **Formatting:** Prettier
 
-<!-- Postman Documenttaion: [Click Here](https://documenter.getpostman.com/view/26682150/2s93zB72V9#acc25f08-de78-478b-809d-837ce239d2b3) -->
+Postman Documentation: [Click Here](https://documenter.getpostman.com/view/31250775/2s9Ykt6esQ)
