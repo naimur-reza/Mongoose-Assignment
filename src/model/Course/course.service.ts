@@ -26,7 +26,7 @@ const getAllCourseFromDB = async (query: IQueryObj) => {
   const meta = {
     page: Number(query.page) || 1,
     limit: Number(query.limit) || 10,
-    total: await Course.countDocuments(),
+    total: result.length,
   };
   return { meta, result };
 };
