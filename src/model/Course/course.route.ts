@@ -18,7 +18,6 @@ router.post(
 
 router.get(
   "/courses",
-  auth("admin"),
   validateRequest(updateCourseSchemaValidation),
   CourseController.getAllCourseFromDB,
 );
