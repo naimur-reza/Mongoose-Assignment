@@ -16,12 +16,13 @@ const createCourseIntoDB = catchAsync(async (req: Request, res: Response) => {
 
 const getAllCourseFromDB = catchAsync(async (req: Request, res: Response) => {
   const query: IQueryObj = req.query;
-  const courses = await CourseServices.getAllCourseFromDB(query);
+  const { meta, result } = await CourseServices.getAllCourseFromDB(query);
 
   res.status(200).send({
     statusCode: 200,
     message: "Courses retrieved successfully",
-    data: { courses },
+    meta,
+    data: { courses: result },
   });
 });
 
