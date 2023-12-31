@@ -34,7 +34,7 @@ const login = async (username: string, password: string) => {
   const token = createToken(payload);
 
   return {
-    ...user,
+    ...payload,
     password: undefined,
     passwordHistory: undefined,
     token,
